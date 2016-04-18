@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style>
+    .hidden{
+      display: none;
+    }
+    .visible{
+      display: block;
+    }
+    .topspacer{
+      margin-top: 10px;
+    }
+    .leftspacer{
+      margin-left: 10px;
+    }
+    .rightspacer{
+      margin-right: 10px;
+    }
+    .gi-2x{
+      font-size: 2em;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <div class="topspacer">&nbsp;</div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="form-inline" id="subject">
+            <div class="form-group col-lg-12">
+              <div id="error" class="alert alert-danger hidden" role="alert"><strong>Error!</strong> <span class="message"></span></div>
+              <label>Subject &nbsp;&nbsp;&nbsp;&nbsp;</label> 
+              <select class="form-control" id="subcondition">
+                <option value="and" selected="selected">AND</option>
+                <option value="or">OR</option>
+              </select>
+              <select class="form-control" id="subopenparenthesis">
+                <option value="blank" selected="selected"></option>
+                <option value="openingparenthesis">&#40;</option>
+              </select>
+              <select class="form-control" id="subpropertytype">
+                <option value="classiri" selected="selected">Class-IRI</option>
+                <option value="datapropertyiri">Data property-IRI</option>
+              </select>
+              <input type="text" class="form-control hidden" id="subdatapropertyiri" placeholder="Data property-IRI">
+              <select class="form-control" id="suboperator">
+                <option value="equalto" selected="selected">&#61;</option>
+                <option value="lessthan">&lt;</option>
+                <option value="greaterthan">&gt;</option>
+                <option value="lessthanequalto">&lt;&#61;</option>
+                <option value="greaterthanequalto">&gt;&#61;</option>
+              </select>
+              <input type="text" class="form-control" id="subtxtvalue" placeholder="value">
+              <select class="form-control" id="subcloseparenthesis">
+                <option value="blank" selected="selected"></option>
+                <option value="closingparenthesis">&#41;</option>
+              </select>
+              <button type="button" class="btn btn-primary" id="addsubjectcriteria"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
+              <div class="topspacer">&nbsp;</div>
+            </div>
+          </div>
+          
+          <div class="panel panel-default col-md-8 col-md-offset-1">
+            <div class="panel-body">
+              <button id="subbtnedit" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
+              <button id="subbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
+              <div class="topspacer">&nbsp;</div>
+              <div class="list-group" id="subject-list-group">
+                
+              </div>
+            </div>
+          </div>
+          <div class="form-inline" id="predicate">
+            <div class="form-group col-lg-12">
+              <label>Predicate &nbsp;</label> 
+              <input type="text" class="form-control" id="preobjectpropertyiri" placeholder="Object Property IRI">
+            </div>
+          </div>
+          
+          <div class="form-inline" id="object">
+            <div class="form-group col-lg-12">
+              <div class="topspacer">&nbsp;</div>
+              <label>Object &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+              <select class="form-control" id="objcondition">
+                <option value="and" selected="selected">AND</option>
+                <option value="or">OR</option>
+              </select>
+              <select class="form-control" id="objopenparenthesis">
+                <option value="blank" selected="selected"></option>
+                <option value="openingparenthesis">&#40;</option>
+              </select>
+              <select class="form-control" id="objpropertytype">
+                <option value="classiri" selected="selected">Class-IRI</option>
+                <option value="datapropertyiri">Data property-IRI</option>
+              </select>
+              <input type="text" class="form-control hidden" id="objdatapropertyiri" placeholder="Data property-IRI">
+              <select class="form-control" id="objoperator">
+                <option value="equalto" selected="selected">&#61;</option>
+                <option value="lessthan">&lt;</option>
+                <option value="greaterthan">&gt;</option>
+                <option value="lessthanequalto">&lt;&#61;</option>
+                <option value="greaterthanequalto">&gt;&#61;</option>
+              </select>
+              <input type="text" class="form-control" id="objtxtvalue" placeholder="value">
+              <select class="form-control" id="objcloseparenthesis">
+                <option value="blank" selected="selected"></option>
+                <option value="closingparenthesis">&#41;</option>
+              </select>
+              <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign rightspacer" aria-hidden="true"></span>Add</button>
+              <div class="topspacer">&nbsp;</div>
+            </div>
+          </div>
+          
+          <div class="panel panel-default col-md-8 col-md-offset-1">
+            <div class="panel-body">
+              Basic panel example
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    
+    $("#subpropertytype").change(function () {
+        var v = this.value;
+        if(v === 'datapropertyiri')
+        {
+          $("#subdatapropertyiri").removeClass('hidden');
+          $("#subdatapropertyiri").addClass('visible');
+        }
+        else
+        {
+          if ($("#subdatapropertyiri").hasClass("visible")) 
+          {
+            $("#subdatapropertyiri").removeClass('visible');
+            $("#subdatapropertyiri").addClass('hidden');
+          }
+        }
+    });
+    $("#objpropertytype").change(function () {
+        var v = this.value;
+        if(v === 'datapropertyiri')
+        {
+          $("#objdatapropertyiri").removeClass('hidden');
+          $("#objdatapropertyiri").addClass('visible');
+        }
+        else
+        {
+          if ($("#objdatapropertyiri").hasClass("visible")) 
+          {
+            $("#objdatapropertyiri").removeClass('visible');
+            $("#objdatapropertyiri").addClass('hidden');
+          }
+        }
+    });
+    
+    function closeAlert(){
+      window.setTimeout(function () {
+        $("#error").fadeOut(1000);
+      }, 5000);
+      window.setTimeout(function () {
+        $("#error").removeClass('visible');
+        $("#error").addClass('hidden');
+      }, 7000);
+    } 
+    function showError(errormessage){
+      $('#error > .message').html(errormessage);
+        if ($("#error").hasClass("hidden")) 
+        {
+          $("#error").fadeIn(1000);
+          $('#error').removeClass('hidden');
+          $('#error').addClass('visible');
+          closeAlert();
+        }
+    }
+    function getEncodedValue(a)
+    {
+      switch(a)
+      {
+        case '(': a = '&#40;'; break;
+        case ')': a = '&#41;'; break;
+        case '=': a = '&#61;'; break;
+        case '<': a = '&lt;'; break;
+        case '>': a = '&gt;'; break;
+        case '<=': a = '&lt;&#61;'; break;
+        case '>=': a = '&gt;&#61;'; break;
+      }
+      return a;
+    }
+    $('#addsubjectcriteria').click(function() {
+      var subdatapropertyiri = $.trim($('#subdatapropertyiri').val());
+      var subtxtvalue = $.trim($('#subtxtvalue').val());
+      var errormessage='';
+
+      if ($('#subdatapropertyiri').hasClass("visible") && subdatapropertyiri === '') 
+      {
+        errormessage = errormessage + ' ' + 'Data property IRI should not be empty.' + ' ';
+      }
+      if(subtxtvalue === '')
+      {
+        errormessage = errormessage + ' ' + 'Value should not be empty.' + ' ';
+      }
+      if(errormessage === '')
+      {
+        // Validation DONE
+        var subcondition_value = $("#subcondition").val();
+        var subcondition_text = $("#subcondition option:selected").text();
+
+        var subopenparenthesis_value = $("#subopenparenthesis").val();
+        var subopenparenthesis_text = getEncodedValue($("#subopenparenthesis option:selected").text());
+
+        var subpropertytype_value = $("#subpropertytype").val();
+        var subpropertytype_text = $("#subpropertytype option:selected").text();
+
+        var subdatapropertyiri_text = $("#subdatapropertyiri").val();
+
+        var suboperator_value = $("#suboperator").val();
+        var suboperator_text = getEncodedValue($("#suboperator option:selected").text());
+
+        var subtxtvalue_text = $("#subtxtvalue").val();
+
+        var subcloseparenthesis_value = $("#subcloseparenthesis").val();
+        var subcloseparenthesis_text = getEncodedValue($("#subcloseparenthesis option:selected").text());
+
+        var newRule = '<a href="#" class="list-group-item"><p><span data-elementtype="select" data-elementid="subcondition" data-value="'+subcondition_value+'">'+subcondition_text+'</span> <span data-elementtype="select" data-elementid="subopenparenthesis" data-value="'+subopenparenthesis_value+'">'+subopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="subpropertytype" data-value="'+subpropertytype_value+'">'+subpropertytype_text+'</span>';
+
+        if(subpropertytype_value === 'datapropertyiri')
+        {
+          newRule = newRule + ' : <span data-elementtype="text" data-elementid ="subdatapropertyiri">'+subdatapropertyiri_text+'</span>';
+        }
+
+        newRule = newRule + ' <span data-elementtype="select" data-elementid="suboperator" data-value="'+suboperator_value+'">'+suboperator_text+'</span> \'<span data-elementtype="text" data-elementid ="subtxtvalue">'+subtxtvalue_text+'</span>\' <span data-elementtype="select" data-elementid="subcloseparenthesis" data-value="'+subcloseparenthesis_value+'">'+subcloseparenthesis_text+'</span></p></a>';
+
+        $("#subject-list-group").append(newRule);
+        $('#subject-list-group > a').last().click(function() {
+          if ($(this).hasClass("active")) 
+              {
+                $(this).removeClass('active');
+              }
+              else
+              {
+                $('.list-group > a').removeClass('active');
+                $(this).addClass('active');
+              }
+        });
+
+      }
+      else
+      {
+        // Error Exists
+        showError(errormessage);
+      }
+    });
+    $('#subbtnedit').click(function() {
+      var errormessage = ' Please select some item to edit.';
+      if($('#subject-list-group > a.active').length) 
+      {
+        $('#subject-list-group > a.active > p > span').each(function( index ) {
+          switch($(this).attr('data-elementid'))
+          {
+            case 'subcondition': $("#subcondition").val($(this).attr('data-value')); break;
+            case 'subopenparenthesis': $("#subopenparenthesis").val($(this).attr('data-value')); break;
+            case 'subpropertytype': $("#subpropertytype").val($(this).attr('data-value')); $( "#subpropertytype" ).trigger( "change" ); break;
+            case 'subdatapropertyiri': $("#subdatapropertyiri").val($(this).text()); break;
+            case 'suboperator': $("#suboperator").val($(this).attr('data-value'));  break;
+            case 'subtxtvalue': $("#subtxtvalue").val($(this).text()); break;
+            case 'subcloseparenthesis': $("#subcloseparenthesis").val($(this).attr('data-value'));  break;
+          }
+        });
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    });  
+    $('#subbtndelete').click(function() {
+      var errormessage = ' Please select some item to delete.';
+      if($('#subject-list-group > a.active').length) 
+      {
+        $('#subject-list-group > a.active').remove();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+  });
+</script>
+</body>
+</body>
+</html>
