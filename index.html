@@ -36,9 +36,9 @@
       <div class="topspacer">&nbsp;</div>
       <div class="panel panel-default">
         <div class="panel-body">
+          <div id="error" class="alert alert-danger hidden" role="alert"><strong>Error!</strong> <span class="message"></span></div>
           <div class="form-inline" id="subject">
             <div class="form-group col-lg-12">
-              <div id="error" class="alert alert-danger hidden" role="alert"><strong>Error!</strong> <span class="message"></span></div>
               <label>Subject &nbsp;&nbsp;&nbsp;&nbsp;</label> 
               <select class="form-control" id="subcondition">
                 <option value="and" selected="selected">AND</option>
@@ -66,6 +66,8 @@
                 <option value="closingparenthesis">&#41;</option>
               </select>
               <button type="button" class="btn btn-primary" id="addsubjectcriteria"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
+              <button type="button" class="btn btn-primary" id="updatesubjectcriteria"><span class="glyphicon glyphicon-ok rightspacer" aria-hidden="true"></span>update</button>
+              <button type="button" class="btn btn-primary" id="cancelsubjectcriteria"><span class="glyphicon glyphicon-minus rightspacer" aria-hidden="true"></span>cancel</button>
               <div class="topspacer">&nbsp;</div>
             </div>
           </div>
@@ -75,21 +77,19 @@
               <button id="subbtnedit" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
               <button id="subbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
               <div class="topspacer">&nbsp;</div>
-              <div class="list-group" id="subject-list-group">
-                
-              </div>
+              <div class="list-group" id="subject-list-group"></div>
             </div>
           </div>
           <div class="form-inline" id="predicate">
             <div class="form-group col-lg-12">
               <label>Predicate &nbsp;</label> 
               <input type="text" class="form-control" id="preobjectpropertyiri" placeholder="Object Property IRI">
+              <div class="topspacer">&nbsp;</div>
             </div>
           </div>
           
           <div class="form-inline" id="object">
             <div class="form-group col-lg-12">
-              <div class="topspacer">&nbsp;</div>
               <label>Object &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
               <select class="form-control" id="objcondition">
                 <option value="and" selected="selected">AND</option>
@@ -116,16 +116,60 @@
                 <option value="blank" selected="selected"></option>
                 <option value="closingparenthesis">&#41;</option>
               </select>
-              <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-plus-sign rightspacer" aria-hidden="true"></span>Add</button>
+              <button type="button" class="btn btn-primary" id="addobjectcriteria"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
+              <button type="button" class="btn btn-primary" id="updateobjectcriteria"><span class="glyphicon glyphicon-ok rightspacer" aria-hidden="true"></span>update</button>
+              <button type="button" class="btn btn-primary" id="cancelobjectcriteria"><span class="glyphicon glyphicon-minus rightspacer" aria-hidden="true"></span>cancel</button>
               <div class="topspacer">&nbsp;</div>
             </div>
           </div>
           
           <div class="panel panel-default col-md-8 col-md-offset-1">
             <div class="panel-body">
-              Basic panel example
+              <button id="objbtnedit" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
+              <button id="objbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
+              <div class="topspacer">&nbsp;</div>
+              <div class="list-group" id="object-list-group"></div>
             </div>
           </div>
+          <div class="form-inline" id="object">
+            <div class="form-group col-lg-12">
+                <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon glyphicon-play rightspacer" aria-hidden="true"></span>Execute Query</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <table class="table table-striped"> 
+            <thead> 
+              <tr> 
+                <th>#</th> 
+                <th>First Name</th> 
+                <th>Last Name</th> 
+                <th>Username</th> 
+              </tr> 
+            </thead> 
+            <tbody> 
+              <tr> 
+                <th scope="row">1</th> 
+                <td>Mark</td> 
+                <td>Otto</td> 
+                <td>@mdo</td> 
+              </tr> 
+              <tr> 
+                <th scope="row">2</th> 
+                <td>Jacob</td> 
+                <td>Thornton</td> 
+                <td>@fat</td> 
+              </tr> 
+              <tr> 
+                <th scope="row">3</th> 
+                <td>Larry</td> 
+                <td>the Bird</td> 
+                <td>@twitter</td> 
+              </tr> 
+            </tbody> 
+          </table>
         </div>
       </div>
     </div>
@@ -134,40 +178,7 @@
 
 <script type="text/javascript">
   $( document ).ready(function() {
-    
-    $("#subpropertytype").change(function () {
-        var v = this.value;
-        if(v === 'datapropertyiri')
-        {
-          $("#subdatapropertyiri").removeClass('hidden');
-          $("#subdatapropertyiri").addClass('visible');
-        }
-        else
-        {
-          if ($("#subdatapropertyiri").hasClass("visible")) 
-          {
-            $("#subdatapropertyiri").removeClass('visible');
-            $("#subdatapropertyiri").addClass('hidden');
-          }
-        }
-    });
-    $("#objpropertytype").change(function () {
-        var v = this.value;
-        if(v === 'datapropertyiri')
-        {
-          $("#objdatapropertyiri").removeClass('hidden');
-          $("#objdatapropertyiri").addClass('visible');
-        }
-        else
-        {
-          if ($("#objdatapropertyiri").hasClass("visible")) 
-          {
-            $("#objdatapropertyiri").removeClass('visible');
-            $("#objdatapropertyiri").addClass('hidden');
-          }
-        }
-    });
-    
+    // GENERIC FUNCTIONS
     function closeAlert(){
       window.setTimeout(function () {
         $("#error").fadeOut(1000);
@@ -201,7 +212,31 @@
       }
       return a;
     }
-    $('#addsubjectcriteria').click(function() {
+
+    // SUBJECT 
+
+    $('#updatesubjectcriteria').hide();
+    $('#cancelsubjectcriteria').hide();
+    
+    $("#subpropertytype").change(function () {
+        var v = this.value;
+        if(v === 'datapropertyiri')
+        {
+          $("#subdatapropertyiri").removeClass('hidden');
+          $("#subdatapropertyiri").addClass('visible');
+        }
+        else
+        {
+          if ($("#subdatapropertyiri").hasClass("visible")) 
+          {
+            $("#subdatapropertyiri").removeClass('visible');
+            $("#subdatapropertyiri").addClass('hidden');
+          }
+        }
+    });
+    
+    function validateSubjectBeforeAddUpdate()
+    {
       var subdatapropertyiri = $.trim($('#subdatapropertyiri').val());
       var subtxtvalue = $.trim($('#subtxtvalue').val());
       var errormessage='';
@@ -214,37 +249,52 @@
       {
         errormessage = errormessage + ' ' + 'Value should not be empty.' + ' ';
       }
+      return errormessage;
+    }
+    function getSubjectRow()
+    {
+      var subcondition_value = $("#subcondition").val();
+      var subcondition_text = $("#subcondition option:selected").text();
+
+      var subopenparenthesis_value = $("#subopenparenthesis").val();
+      var subopenparenthesis_text = getEncodedValue($("#subopenparenthesis option:selected").text());
+
+      var subpropertytype_value = $("#subpropertytype").val();
+      var subpropertytype_text = $("#subpropertytype option:selected").text();
+
+      var subdatapropertyiri_text = $("#subdatapropertyiri").val();
+
+      var suboperator_value = $("#suboperator").val();
+      var suboperator_text = getEncodedValue($("#suboperator option:selected").text());
+
+      var subtxtvalue_text = $("#subtxtvalue").val();
+
+      var subcloseparenthesis_value = $("#subcloseparenthesis").val();
+      var subcloseparenthesis_text = getEncodedValue($("#subcloseparenthesis option:selected").text());
+
+      var newRule = '<a href="#" class="list-group-item"><p><span data-elementtype="select" data-elementid="subcondition" data-value="'+subcondition_value+'">'+subcondition_text+'</span> <span data-elementtype="select" data-elementid="subopenparenthesis" data-value="'+subopenparenthesis_value+'">'+subopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="subpropertytype" data-value="'+subpropertytype_value+'">'+subpropertytype_text+'</span>';
+
+      if(subpropertytype_value === 'datapropertyiri')
+      {
+        newRule = newRule + ' : <span data-elementtype="text" data-elementid ="subdatapropertyiri">'+subdatapropertyiri_text+'</span>';
+      }
+
+      newRule = newRule + ' <span data-elementtype="select" data-elementid="suboperator" data-value="'+suboperator_value+'">'+suboperator_text+'</span> \'<span data-elementtype="text" data-elementid ="subtxtvalue">'+subtxtvalue_text+'</span>\' <span data-elementtype="select" data-elementid="subcloseparenthesis" data-value="'+subcloseparenthesis_value+'">'+subcloseparenthesis_text+'</span></p></a>';
+
+      return newRule;
+    }
+    function resetSubjectRow()
+    {
+      $("#subdatapropertyiri").val('');
+      $("#subtxtvalue").val('');
+    }
+    $('#addsubjectcriteria').click(function() {
+
+      var errormessage = validateSubjectBeforeAddUpdate();
       if(errormessage === '')
       {
         // Validation DONE
-        var subcondition_value = $("#subcondition").val();
-        var subcondition_text = $("#subcondition option:selected").text();
-
-        var subopenparenthesis_value = $("#subopenparenthesis").val();
-        var subopenparenthesis_text = getEncodedValue($("#subopenparenthesis option:selected").text());
-
-        var subpropertytype_value = $("#subpropertytype").val();
-        var subpropertytype_text = $("#subpropertytype option:selected").text();
-
-        var subdatapropertyiri_text = $("#subdatapropertyiri").val();
-
-        var suboperator_value = $("#suboperator").val();
-        var suboperator_text = getEncodedValue($("#suboperator option:selected").text());
-
-        var subtxtvalue_text = $("#subtxtvalue").val();
-
-        var subcloseparenthesis_value = $("#subcloseparenthesis").val();
-        var subcloseparenthesis_text = getEncodedValue($("#subcloseparenthesis option:selected").text());
-
-        var newRule = '<a href="#" class="list-group-item"><p><span data-elementtype="select" data-elementid="subcondition" data-value="'+subcondition_value+'">'+subcondition_text+'</span> <span data-elementtype="select" data-elementid="subopenparenthesis" data-value="'+subopenparenthesis_value+'">'+subopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="subpropertytype" data-value="'+subpropertytype_value+'">'+subpropertytype_text+'</span>';
-
-        if(subpropertytype_value === 'datapropertyiri')
-        {
-          newRule = newRule + ' : <span data-elementtype="text" data-elementid ="subdatapropertyiri">'+subdatapropertyiri_text+'</span>';
-        }
-
-        newRule = newRule + ' <span data-elementtype="select" data-elementid="suboperator" data-value="'+suboperator_value+'">'+suboperator_text+'</span> \'<span data-elementtype="text" data-elementid ="subtxtvalue">'+subtxtvalue_text+'</span>\' <span data-elementtype="select" data-elementid="subcloseparenthesis" data-value="'+subcloseparenthesis_value+'">'+subcloseparenthesis_text+'</span></p></a>';
-
+        var newRule = getSubjectRow();
         $("#subject-list-group").append(newRule);
         $('#subject-list-group > a').last().click(function() {
           if ($(this).hasClass("active")) 
@@ -257,13 +307,52 @@
                 $(this).addClass('active');
               }
         });
-
+        resetSubjectRow();
       }
       else
       {
         // Error Exists
         showError(errormessage);
       }
+    });
+    $('#updatesubjectcriteria').click(function() {
+      var errormessage = validateSubjectBeforeAddUpdate();
+      if(errormessage === '')
+      {
+        // Validation DONE
+        var newRule = getSubjectRow();
+        var listItem = $('#subject-list-group > a.active');
+        var index = $( "#subject-list-group > a" ).index( listItem );
+        
+        $('#subject-list-group > a.active').replaceWith(newRule);
+        $('#subject-list-group > a').eq(index).click(function() {
+          if ($(this).hasClass("active")) 
+              {
+                $(this).removeClass('active');
+              }
+              else
+              {
+                $('.list-group > a').removeClass('active');
+                $(this).addClass('active');
+              }
+        });
+        $('#updatesubjectcriteria').hide();
+        $('#cancelsubjectcriteria').hide();
+        $('#addsubjectcriteria').show();
+      }
+      else
+      {
+        // Error Exists
+        showError(errormessage);
+      }
+
+    });
+    $('#cancelsubjectcriteria').click(function() {
+      $('#updatesubjectcriteria').hide();
+      $('#cancelsubjectcriteria').hide();
+      $('#addsubjectcriteria').show();
+      resetSubjectRow();
+      $('#subject-list-group > a.active').trigger('click');
     });
     $('#subbtnedit').click(function() {
       var errormessage = ' Please select some item to edit.';
@@ -281,6 +370,9 @@
             case 'subcloseparenthesis': $("#subcloseparenthesis").val($(this).attr('data-value'));  break;
           }
         });
+        $('#updatesubjectcriteria').show();
+        $('#cancelsubjectcriteria').show();
+        $('#addsubjectcriteria').hide();
       }
       else
       {
@@ -292,6 +384,184 @@
       if($('#subject-list-group > a.active').length) 
       {
         $('#subject-list-group > a.active').remove();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+    
+
+    // OBJECT 
+
+    $('#updateobjectcriteria').hide();
+    $('#cancelobjectcriteria').hide();
+
+    $("#objpropertytype").change(function () {
+        var v = this.value;
+        if(v === 'datapropertyiri')
+        {
+          $("#objdatapropertyiri").removeClass('hidden');
+          $("#objdatapropertyiri").addClass('visible');
+        }
+        else
+        {
+          if ($("#objdatapropertyiri").hasClass("visible")) 
+          {
+            $("#objdatapropertyiri").removeClass('visible');
+            $("#objdatapropertyiri").addClass('hidden');
+          }
+        }
+    });
+    function validateObjectBeforeAddUpdate()
+    {
+      var objdatapropertyiri = $.trim($('#objdatapropertyiri').val());
+      var objtxtvalue = $.trim($('#objtxtvalue').val());
+      var errormessage='';
+
+      if ($('#objdatapropertyiri').hasClass("visible") && objdatapropertyiri === '') 
+      {
+        errormessage = errormessage + ' ' + 'Data property IRI should not be empty.' + ' ';
+      }
+      if(objtxtvalue === '')
+      {
+        errormessage = errormessage + ' ' + 'Value should not be empty.' + ' ';
+      }
+      return errormessage;
+    }
+    function getObjectRow()
+    {
+      var objcondition_value = $("#objcondition").val();
+      var objcondition_text = $("#objcondition option:selected").text();
+
+      var objopenparenthesis_value = $("#objopenparenthesis").val();
+      var objopenparenthesis_text = getEncodedValue($("#objopenparenthesis option:selected").text());
+
+      var objpropertytype_value = $("#objpropertytype").val();
+      var objpropertytype_text = $("#objpropertytype option:selected").text();
+
+      var objdatapropertyiri_text = $("#objdatapropertyiri").val();
+
+      var objoperator_value = $("#objoperator").val();
+      var objoperator_text = getEncodedValue($("#objoperator option:selected").text());
+
+      var objtxtvalue_text = $("#objtxtvalue").val();
+
+      var objcloseparenthesis_value = $("#objcloseparenthesis").val();
+      var objcloseparenthesis_text = getEncodedValue($("#objcloseparenthesis option:selected").text());
+
+      var newRule = '<a href="#" class="list-group-item"><p><span data-elementtype="select" data-elementid="objcondition" data-value="'+objcondition_value+'">'+objcondition_text+'</span> <span data-elementtype="select" data-elementid="objopenparenthesis" data-value="'+objopenparenthesis_value+'">'+objopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="objpropertytype" data-value="'+objpropertytype_value+'">'+objpropertytype_text+'</span>';
+
+      if(objpropertytype_value === 'datapropertyiri')
+      {
+        newRule = newRule + ' : <span data-elementtype="text" data-elementid ="objdatapropertyiri">'+objdatapropertyiri_text+'</span>';
+      }
+
+      newRule = newRule + ' <span data-elementtype="select" data-elementid="objoperator" data-value="'+objoperator_value+'">'+objoperator_text+'</span> \'<span data-elementtype="text" data-elementid ="objtxtvalue">'+objtxtvalue_text+'</span>\' <span data-elementtype="select" data-elementid="objcloseparenthesis" data-value="'+objcloseparenthesis_value+'">'+objcloseparenthesis_text+'</span></p></a>';
+
+      return newRule;
+    }
+    function resetObjectRow()
+    {
+      $("#objdatapropertyiri").val('');
+      $("#objtxtvalue").val('');
+    }
+    $('#addobjectcriteria').click(function() {
+
+      var errormessage = validateObjectBeforeAddUpdate();
+      if(errormessage === '')
+      {
+        // Validation DONE
+        var newRule = getObjectRow();
+        $("#object-list-group").append(newRule);
+        $('#object-list-group > a').last().click(function() {
+          if ($(this).hasClass("active")) 
+              {
+                $(this).removeClass('active');
+              }
+              else
+              {
+                $('.list-group > a').removeClass('active');
+                $(this).addClass('active');
+              }
+        });
+        resetObjectRow();
+      }
+      else
+      {
+        // Error Exists
+        showError(errormessage);
+      }
+    });
+    $('#updateobjectcriteria').click(function() {
+      var errormessage = validateObjectBeforeAddUpdate();
+      if(errormessage === '')
+      {
+        // Validation DONE
+        var newRule = getObjectRow();
+        var listItem = $('#object-list-group > a.active');
+        var index = $( "#kbject-list-group > a" ).index( listItem );
+        
+        $('#object-list-group > a.active').replaceWith(newRule);
+        $('#object-list-group > a').eq(index).click(function() {
+          if ($(this).hasClass("active")) 
+              {
+                $(this).removeClass('active');
+              }
+              else
+              {
+                $('.list-group > a').removeClass('active');
+                $(this).addClass('active');
+              }
+        });
+        $('#updateobjectcriteria').hide();
+        $('#cancelobjectcriteria').hide();
+        $('#addobjectcriteria').show();
+      }
+      else
+      {
+        // Error Exists
+        showError(errormessage);
+      }
+
+    });
+    $('#cancelobjectcriteria').click(function() {
+      $('#updateobjectcriteria').hide();
+      $('#cancelobjectcriteria').hide();
+      $('#addobjectcriteria').show();
+      resetObjectRow();
+      $('#object-list-group > a.active').trigger('click');
+    });
+    $('#objbtnedit').click(function() {
+      var errormessage = ' Please select some item to edit.';
+      if($('#object-list-group > a.active').length) 
+      {
+        $('#object-list-group > a.active > p > span').each(function( index ) {
+          switch($(this).attr('data-elementid'))
+          {
+            case 'objcondition': $("#objcondition").val($(this).attr('data-value')); break;
+            case 'objopenparenthesis': $("#objopenparenthesis").val($(this).attr('data-value')); break;
+            case 'objpropertytype': $("#objpropertytype").val($(this).attr('data-value')); $( "#objpropertytype" ).trigger( "change" ); break;
+            case 'objdatapropertyiri': $("#objdatapropertyiri").val($(this).text()); break;
+            case 'objoperator': $("#objoperator").val($(this).attr('data-value'));  break;
+            case 'objtxtvalue': $("#objtxtvalue").val($(this).text()); break;
+            case 'objcloseparenthesis': $("#objcloseparenthesis").val($(this).attr('data-value'));  break;
+          }
+        });
+        $('#updateobjectcriteria').show();
+        $('#cancelobjectcriteria').show();
+        $('#addobjectcriteria').hide();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    });  
+    $('#objbtndelete').click(function() {
+      var errormessage = ' Please select some item to delete.';
+      if($('#object-list-group > a.active').length) 
+      {
+        $('#object-list-group > a.active').remove();
       }
       else
       {
