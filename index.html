@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>OWL-NEO4J Query Engine</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -104,7 +104,12 @@
               </select>
               <select class="form-control" id="subopenparenthesis">
                 <option value="blank" selected="selected"></option>
-                <option value="openingparenthesis">&#40;</option>
+                <option value="openingparenthesis1">&#40;</option>
+                <option value="openingparenthesis2">&#40;&#40;</option>
+                <option value="openingparenthesis3">&#40;&#40;&#40;</option>
+                <option value="openingparenthesis4">&#40;&#40;&#40;&#40;</option>
+                <option value="openingparenthesis5">&#40;&#40;&#40;&#40;&#40;</option>
+                <option value="openingparenthesis6">&#40;&#40;&#40;&#40;&#40;&#40;</option>
               </select>
               <select class="form-control" id="subpropertytype">
                 <option value="classiri" selected="selected">Class-IRI</option>
@@ -121,7 +126,12 @@
               <input type="text" class="form-control" id="subtxtvalue" placeholder="value">
               <select class="form-control" id="subcloseparenthesis">
                 <option value="blank" selected="selected"></option>
-                <option value="closingparenthesis">&#41;</option>
+                <option value="closingparenthesis1">&#41;</option>
+                <option value="closingparenthesis2">&#41;&#41;</option>
+                <option value="closingparenthesis3">&#41;&#41;&#41;</option>
+                <option value="closingparenthesis4">&#41;&#41;&#41;&#41;</option>
+                <option value="closingparenthesis5">&#41;&#41;&#41;&#41;&#41;</option>
+                <option value="closingparenthesis6">&#41;&#41;&#41;&#41;&#41;&#41;</option>
               </select>
               <button type="button" class="btn btn-primary" id="addsubjectcriteria"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
               <button type="button" class="btn btn-primary" id="updatesubjectcriteria"><span class="glyphicon glyphicon-ok rightspacer" aria-hidden="true"></span>update</button>
@@ -130,12 +140,15 @@
             </div>
           </div>
           
-          <div class="panel panel-default col-md-8 col-md-offset-1">
+          <div class="panel panel-default col-md-10 col-md-offset-1">
             <div class="panel-body">
               <button id="subbtnedit" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
               <button id="subbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
               <div class="topspacer">&nbsp;</div>
-              <div class="list-group" id="subject-list-group"></div>
+              <div class="row">
+                <div class="list-group col-md-6" id="subject-list-group"></div>
+                <div class="list-group col-md-6" id="neosubject-list-group"></div>
+              </div>
             </div>
           </div>
           <div class="form-inline" id="predicate">
@@ -155,7 +168,12 @@
               </select>
               <select class="form-control" id="objopenparenthesis">
                 <option value="blank" selected="selected"></option>
-                <option value="openingparenthesis">&#40;</option>
+                <option value="openingparenthesis1">&#40;</option>
+                <option value="openingparenthesis2">&#40;&#40;</option>
+                <option value="openingparenthesis3">&#40;&#40;&#40;</option>
+                <option value="openingparenthesis4">&#40;&#40;&#40;&#40;</option>
+                <option value="openingparenthesis5">&#40;&#40;&#40;&#40;&#40;</option>
+                <option value="openingparenthesis6">&#40;&#40;&#40;&#40;&#40;&#40;</option>
               </select>
               <select class="form-control" id="objpropertytype">
                 <option value="classiri" selected="selected">Class-IRI</option>
@@ -172,7 +190,12 @@
               <input type="text" class="form-control" id="objtxtvalue" placeholder="value">
               <select class="form-control" id="objcloseparenthesis">
                 <option value="blank" selected="selected"></option>
-                <option value="closingparenthesis">&#41;</option>
+                <option value="closingparenthesis1">&#41;</option>
+                <option value="closingparenthesis2">&#41;&#41;</option>
+                <option value="closingparenthesis3">&#41;&#41;&#41;</option>
+                <option value="closingparenthesis4">&#41;&#41;&#41;&#41;</option>
+                <option value="closingparenthesis5">&#41;&#41;&#41;&#41;&#41;</option>
+                <option value="closingparenthesis6">&#41;&#41;&#41;&#41;&#41;&#41;</option>
               </select>
               <button type="button" class="btn btn-primary" id="addobjectcriteria"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
               <button type="button" class="btn btn-primary" id="updateobjectcriteria"><span class="glyphicon glyphicon-ok rightspacer" aria-hidden="true"></span>update</button>
@@ -181,18 +204,21 @@
             </div>
           </div>
           
-          <div class="panel panel-default col-md-8 col-md-offset-1">
+          <div class="panel panel-default col-md-10 col-md-offset-1">
             <div class="panel-body">
               <button id="objbtnedit" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
               <button id="objbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
               <div class="topspacer">&nbsp;</div>
-              <div class="list-group" id="object-list-group"></div>
+              <div class="row">
+                <div class="list-group col-md-6" id="object-list-group"></div>
+                <div class="list-group col-md-6" id="neoobject-list-group"></div>
+              </div>
             </div>
           </div>
           
           <div class="form-inline" id="executequery">
             <div class="form-group col-lg-12">
-                <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon glyphicon-play rightspacer" aria-hidden="true"></span>Execute Query</button>
+                <button type="button" id="btnexecutequery" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon glyphicon-play rightspacer" aria-hidden="true"></span>Execute Query</button>
             </div>
           </div>
         </div>
@@ -333,7 +359,7 @@
       var subcloseparenthesis_value = $("#subcloseparenthesis").val();
       var subcloseparenthesis_text = getEncodedValue($("#subcloseparenthesis option:selected").text());
 
-      var newRule = '<a href="#" class="list-group-item"><p><span data-elementtype="select" data-elementid="subcondition" data-value="'+subcondition_value+'">'+subcondition_text+'</span> <span data-elementtype="select" data-elementid="subopenparenthesis" data-value="'+subopenparenthesis_value+'">'+subopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="subpropertytype" data-value="'+subpropertytype_value+'">'+subpropertytype_text+'</span>';
+      var newRule = '<a  class="list-group-item"><p><span data-elementtype="select" data-elementid="subcondition" data-value="'+subcondition_value+'">'+subcondition_text+'</span> <span data-elementtype="select" data-elementid="subopenparenthesis" data-value="'+subopenparenthesis_value+'">'+subopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="subpropertytype" data-value="'+subpropertytype_value+'">'+subpropertytype_text+'</span>';
 
       if(subpropertytype_value === 'datapropertyiri')
       {
@@ -342,6 +368,38 @@
 
       newRule = newRule + ' <span data-elementtype="select" data-elementid="suboperator" data-value="'+suboperator_value+'">'+suboperator_text+'</span> \'<span data-elementtype="text" data-elementid ="subtxtvalue">'+subtxtvalue_text+'</span>\' <span data-elementtype="select" data-elementid="subcloseparenthesis" data-value="'+subcloseparenthesis_value+'">'+subcloseparenthesis_text+'</span></p></a>';
 
+      return newRule;
+    }
+    function getNeoSubjectRow()
+    {
+      var subcondition_value = $("#subcondition").val();
+      var subcondition_text = $("#subcondition option:selected").text();
+
+      var subopenparenthesis_value = $("#subopenparenthesis").val();
+      var subopenparenthesis_text = getEncodedValue($("#subopenparenthesis option:selected").text());
+
+      var subpropertytype_value = $("#subpropertytype").val();
+      var subpropertytype_text = $("#subpropertytype option:selected").text();
+
+      var subdatapropertyiri_text = $("#subdatapropertyiri").val();
+
+      var suboperator_value = $("#suboperator").val();
+      var suboperator_text = getEncodedValue($("#suboperator option:selected").text());
+
+      var subtxtvalue_text = $("#subtxtvalue").val();
+
+      var subcloseparenthesis_value = $("#subcloseparenthesis").val();
+      var subcloseparenthesis_text = getEncodedValue($("#subcloseparenthesis option:selected").text());
+
+      if(subpropertytype_value === 'classiri')
+      {
+        var newRule = '<a  class="list-group-item"><p>'+subcondition_text+' '+subopenparenthesis_text+'(cs.type="Class" and (cs.IRI'+suboperator_text+'"'+subtxtvalue_text+'"))'+subcloseparenthesis_text+'';
+      }
+      else if(subpropertytype_value === 'datapropertyiri')
+      {
+        var newRule = '<a  class="list-group-item"><p>'+subcondition_text+' '+subopenparenthesis_text+'(s.type="NamedIndividual" and s.'+subdatapropertyiri_text+''+suboperator_text+'"'+subtxtvalue_text+'")'+subcloseparenthesis_text+'';
+      }
+      
       return newRule;
     }
     function resetSubjectRow()
@@ -356,7 +414,9 @@
       {
         // Validation DONE
         var newRule = getSubjectRow();
+
         $("#subject-list-group").append(newRule);
+
         $('#subject-list-group > a').last().click(function() {
           if ($(this).hasClass("active")) 
               {
@@ -368,6 +428,7 @@
                 $(this).addClass('active');
               }
         });
+        $("#neosubject-list-group").append(getNeoSubjectRow());
         resetSubjectRow();
       }
       else
@@ -397,9 +458,13 @@
                 $(this).addClass('active');
               }
         });
+
+        $("#neosubject-list-group > a").eq(index).replaceWith(getNeoSubjectRow());
+
         $('#updatesubjectcriteria').hide();
         $('#cancelsubjectcriteria').hide();
         $('#addsubjectcriteria').show();
+        resetSubjectRow();
       }
       else
       {
@@ -444,7 +509,10 @@
       var errormessage = ' Please select some item to delete.';
       if($('#subject-list-group > a.active').length) 
       {
+        var listItem = $('#subject-list-group > a.active');
+        var index = $( "#subject-list-group > a" ).index( listItem );
         $('#subject-list-group > a.active').remove();
+        $("#neosubject-list-group > a").eq(index).remove();
       }
       else
       {
@@ -511,7 +579,7 @@
       var objcloseparenthesis_value = $("#objcloseparenthesis").val();
       var objcloseparenthesis_text = getEncodedValue($("#objcloseparenthesis option:selected").text());
 
-      var newRule = '<a href="#" class="list-group-item"><p><span data-elementtype="select" data-elementid="objcondition" data-value="'+objcondition_value+'">'+objcondition_text+'</span> <span data-elementtype="select" data-elementid="objopenparenthesis" data-value="'+objopenparenthesis_value+'">'+objopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="objpropertytype" data-value="'+objpropertytype_value+'">'+objpropertytype_text+'</span>';
+      var newRule = '<a  class="list-group-item"><p><span data-elementtype="select" data-elementid="objcondition" data-value="'+objcondition_value+'">'+objcondition_text+'</span> <span data-elementtype="select" data-elementid="objopenparenthesis" data-value="'+objopenparenthesis_value+'">'+objopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="objpropertytype" data-value="'+objpropertytype_value+'">'+objpropertytype_text+'</span>';
 
       if(objpropertytype_value === 'datapropertyiri')
       {
@@ -520,6 +588,38 @@
 
       newRule = newRule + ' <span data-elementtype="select" data-elementid="objoperator" data-value="'+objoperator_value+'">'+objoperator_text+'</span> \'<span data-elementtype="text" data-elementid ="objtxtvalue">'+objtxtvalue_text+'</span>\' <span data-elementtype="select" data-elementid="objcloseparenthesis" data-value="'+objcloseparenthesis_value+'">'+objcloseparenthesis_text+'</span></p></a>';
 
+      return newRule;
+    }
+    function getNeoObjectRow()
+    {
+      var objcondition_value = $("#objcondition").val();
+      var objcondition_text = $("#objcondition option:selected").text();
+
+      var objopenparenthesis_value = $("#objopenparenthesis").val();
+      var objopenparenthesis_text = getEncodedValue($("#objopenparenthesis option:selected").text());
+
+      var objpropertytype_value = $("#objpropertytype").val();
+      var objpropertytype_text = $("#objpropertytype option:selected").text();
+
+      var objdatapropertyiri_text = $("#objdatapropertyiri").val();
+
+      var objoperator_value = $("#objoperator").val();
+      var objoperator_text = getEncodedValue($("#objoperator option:selected").text());
+
+      var objtxtvalue_text = $("#objtxtvalue").val();
+
+      var objcloseparenthesis_value = $("#objcloseparenthesis").val();
+      var objcloseparenthesis_text = getEncodedValue($("#objcloseparenthesis option:selected").text());
+
+      if(objpropertytype_value === 'classiri')
+      {
+        var newRule = '<a  class="list-group-item"><p>'+objcondition_text+' '+objopenparenthesis_text+'(co.type="Class" and (co.IRI'+objoperator_text+'"'+objtxtvalue_text+'"))'+objcloseparenthesis_text+'';
+      }
+      else if(objpropertytype_value === 'datapropertyiri')
+      {
+        var newRule = '<a  class="list-group-item"><p>'+objcondition_text+' '+objopenparenthesis_text+'(o.type="NamedIndividual" and o.'+objdatapropertyiri_text+''+objoperator_text+'"'+objtxtvalue_text+'")'+objcloseparenthesis_text+'';
+      }
+      
       return newRule;
     }
     function resetObjectRow()
@@ -546,6 +646,7 @@
                 $(this).addClass('active');
               }
         });
+        $("#neoobject-list-group").append(getNeoObjectRow());
         resetObjectRow();
       }
       else
@@ -575,9 +676,12 @@
                 $(this).addClass('active');
               }
         });
+        $("#neoobject-list-group > a").eq(index).replaceWith(getNeoObjectRow());
+
         $('#updateobjectcriteria').hide();
         $('#cancelobjectcriteria').hide();
         $('#addobjectcriteria').show();
+        resetObjectRow();
       }
       else
       {
@@ -622,7 +726,10 @@
       var errormessage = ' Please select some item to delete.';
       if($('#object-list-group > a.active').length) 
       {
+        var listItem = $('#object-list-group > a.active');
+        var index = $( "#object-list-group > a" ).index( listItem );
         $('#object-list-group > a.active').remove();
+        $("#neoobject-list-group > a").eq(index).remove();
       }
       else
       {
@@ -804,7 +911,39 @@
     $('#cancelobjectdataproperty').click(function() {
       resetSelectObject();
     });
+    $('#btnexecutequery').click(function(){
+      var query = '';
+      var matchclause = '';
+      var returnclause = '';
+      var whereclause = '';
 
+      matchclause = 'Match (s)-[r1:IsA]->(cs),' + 
+                          '(o)-[r2:IsA]->(co),' + 
+                          '(s)-[r3:'+$('#preobjectpropertyiri').val()+']->(o)';
+
+      returnclause = 'Return ';
+      $('#selectsubjectlist > li').each(function( index ) {
+        returnclause = returnclause + 's.' + $(this).html() + ',';
+      });
+      $('#selectobjectlist > li').each(function( index ) {
+        returnclause = returnclause + 'o.' + $(this).html() + ',';
+      });
+      returnclause = returnclause.substring(0,returnclause.length-1);
+
+      whereclause = 'Where ';
+      $('#neosubject-list-group > a').each(function( index ) {
+        whereclause = whereclause + ' ' + $(this).find('p').html();
+      });
+      $('#neoobject-list-group > a').each(function( index ) {
+        whereclause = whereclause + ' ' + $(this).find('p').html();
+      });
+      whereclause = whereclause.replace("Where  AND", "Where (1=1) AND"); 
+      whereclause = whereclause.replace("Where  OR", "Where (1=0) OR"); 
+
+
+      query = matchclause  + ' ' + whereclause + ' ' + returnclause;
+      alert(query);
+    });
   });
 </script>
 </body>
