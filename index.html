@@ -36,9 +36,67 @@
       <div class="topspacer">&nbsp;</div>
       <div class="panel panel-default">
         <div class="panel-body">
+          <p class="text-center bg-info" style="padding:10px;"><b>Query Generation Engine</b></p>
           <div id="error" class="alert alert-danger hidden" role="alert"><strong>Error!</strong> <span class="message"></span></div>
+          <div class="form-inline" id="object">
+            <div class="form-group col-lg-12">
+              <p class="bg-success" style="padding:10px;"><b>Select Clause</b></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class=" col-md-5 col-md-offset-1">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-inline" id="object">
+                    <div class="form-group">
+                      <label>Subject's data property</label> <br/>
+                      <input type="text" class="form-control" id="subjectdataproperty" placeholder="value">
+                      <button type="button" class="btn btn-primary" id="addsubjectdataproperty"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
+                      <button type="button" class="btn btn-primary" id="updatesubjectdataproperty"><span class="glyphicon glyphicon-ok rightspacer" aria-hidden="true"></span>update</button>
+                      <button type="button" class="btn btn-primary" id="cancelsubjectdataproperty"><span class="glyphicon glyphicon-minus rightspacer" aria-hidden="true"></span>cancel</button>
+                      <br/>
+                      <div class="topspacer">&nbsp;</div>
+                      <button id="editsubjectdataproperty" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
+                      <button id="deletesubjectdataproperty" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
+                      <div class="topspacer">&nbsp;</div>
+                    </div>
+                  </div>
+                  
+                  <ul class="list-group" id="selectsubjectlist">
+                    
+                  </ul>
+                  <div class="topspacer">&nbsp;</div>
+                </div>
+              </div>
+            </div>
+            <div class=" col-md-5">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <div class="form-inline" id="object">
+                    <div class="form-group">
+                      <label>Object's data property</label> <br/>
+                      <input type="text" class="form-control" id="objectdataproperty" placeholder="value">
+                      <button type="button" class="btn btn-primary" id="addobjectdataproperty"><span class="glyphicon glyphicon-plus rightspacer" aria-hidden="true"></span>Add</button>
+                      <button type="button" class="btn btn-primary" id="updateobjectdataproperty"><span class="glyphicon glyphicon-ok rightspacer" aria-hidden="true"></span>update</button>
+                      <button type="button" class="btn btn-primary" id="cancelobjectdataproperty"><span class="glyphicon glyphicon-minus rightspacer" aria-hidden="true"></span>cancel</button>
+                      <br/>
+                      <div class="topspacer">&nbsp;</div>
+                      <button id="editobjectdataproperty" type="button" class="btn btn-info"><span class="glyphicon glyphicon-pencil rightspacer" aria-hidden="true"></span>Edit</button>
+                      <button id="deleteobjectdataproperty" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
+                      <div class="topspacer">&nbsp;</div>
+                    </div>
+                  </div>
+                  <ul class="list-group" id="selectobjectlist">
+                    
+                  </ul>
+                  <div class="topspacer">&nbsp;</div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="form-inline" id="subject">
             <div class="form-group col-lg-12">
+              <p class="bg-success" style="padding:10px;"><b>Where Clause</b></p>
               <label>Subject &nbsp;&nbsp;&nbsp;&nbsp;</label> 
               <select class="form-control" id="subcondition">
                 <option value="and" selected="selected">AND</option>
@@ -131,7 +189,8 @@
               <div class="list-group" id="object-list-group"></div>
             </div>
           </div>
-          <div class="form-inline" id="object">
+          
+          <div class="form-inline" id="executequery">
             <div class="form-group col-lg-12">
                 <button type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon glyphicon-play rightspacer" aria-hidden="true"></span>Execute Query</button>
             </div>
@@ -140,13 +199,14 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-body">
+          <p class="text-center bg-info" style="padding:10px;"><b>Result of the query</b></p>
           <table class="table table-striped"> 
             <thead> 
               <tr> 
                 <th>#</th> 
-                <th>First Name</th> 
-                <th>Last Name</th> 
-                <th>Username</th> 
+                <th>Subject's data property(1)</th> 
+                <th>Subject's data property(2)</th> 
+                <th>Object's data property(1)</th> 
               </tr> 
             </thead> 
             <tbody> 
@@ -197,6 +257,7 @@
           $('#error').addClass('visible');
           closeAlert();
         }
+        $('body, html').animate({scrollTop: 0});
     }
     function getEncodedValue(a)
     {
@@ -303,7 +364,7 @@
               }
               else
               {
-                $('.list-group > a').removeClass('active');
+                $('#subject-list-group > a').removeClass('active');
                 $(this).addClass('active');
               }
         });
@@ -332,7 +393,7 @@
               }
               else
               {
-                $('.list-group > a').removeClass('active');
+                $('#subject-list-group > a').removeClass('active');
                 $(this).addClass('active');
               }
         });
@@ -481,7 +542,7 @@
               }
               else
               {
-                $('.list-group > a').removeClass('active');
+                $('#object-list-group > a').removeClass('active');
                 $(this).addClass('active');
               }
         });
@@ -500,7 +561,7 @@
         // Validation DONE
         var newRule = getObjectRow();
         var listItem = $('#object-list-group > a.active');
-        var index = $( "#kbject-list-group > a" ).index( listItem );
+        var index = $( "#object-list-group > a" ).index( listItem );
         
         $('#object-list-group > a.active').replaceWith(newRule);
         $('#object-list-group > a').eq(index).click(function() {
@@ -510,7 +571,7 @@
               }
               else
               {
-                $('.list-group > a').removeClass('active');
+                $('#object-list-group > a').removeClass('active');
                 $(this).addClass('active');
               }
         });
@@ -568,6 +629,182 @@
         showError(errormessage);
       }
     }); 
+    
+    
+    // SELECT SUBJECT
+    function resetSelectSubject()
+    {
+      $('#updatesubjectdataproperty').hide(); 
+      $('#cancelsubjectdataproperty').hide(); 
+      $('#addsubjectdataproperty').show(); 
+      $('#selectsubjectlist > li.active').removeClass('active');
+      $('#subjectdataproperty').val('');
+    }
+    $('#addsubjectdataproperty').click(function() {
+      var errormessage = ' Please enter some data property for subject.';
+      var txtvalue = $.trim($('#subjectdataproperty').val());
+      if(txtvalue != '') 
+      {
+        $('#selectsubjectlist').append('<li class="list-group-item">'+txtvalue+'</li>');
+        $('#selectsubjectlist > li').last().click(function() {
+          if ($(this).hasClass("active")) 
+          {
+            $(this).removeClass('active');
+          }
+          else
+          {
+            $('#selectsubjectlist > li').removeClass('active');
+            $(this).addClass('active');
+          }
+        });
+        $('#subjectdataproperty').val('');
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+
+    $('#updatesubjectdataproperty').hide(); 
+    $('#cancelsubjectdataproperty').hide(); 
+
+    $('#deletesubjectdataproperty').click(function() {
+      var errormessage = ' Please select some subject data property to delete.';
+      if($('#selectsubjectlist > li.active').length) 
+      {
+        $('#selectsubjectlist > li.active').remove();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+    $('#editsubjectdataproperty').click(function() {
+      var errormessage = ' Please select some subject data property to edit.';
+      
+      if($('#selectsubjectlist > li.active').length) 
+      {
+        $('#updatesubjectdataproperty').show(); 
+        $('#cancelsubjectdataproperty').show(); 
+        $('#addsubjectdataproperty').hide(); 
+        $('#subjectdataproperty').val($('#selectsubjectlist > li.active').html());
+        
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+    $('#updatesubjectdataproperty').click(function() {
+      var listItem = $('#selectsubjectlist > li.active');
+      var index = $( "#selectsubjectlist > li" ).index( listItem );
+      errormessage = ' Please enter some data property for subject.';
+      var txtvalue = $.trim($('#subjectdataproperty').val());
+      if(txtvalue != '') 
+      {
+        $('#selectsubjectlist > li').eq(index).html(txtvalue);
+        if($('#selectsubjectlist > li').eq(index).hasClass('active'))
+        {
+          $('#selectsubjectlist > li').eq(index).removeClass('active');
+        }
+        resetSelectSubject();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    });
+    $('#cancelsubjectdataproperty').click(function() {
+      resetSelectSubject();
+    });
+
+    // SELECT OBJECT
+    function resetSelectObject()
+    {
+      $('#updateobjectdataproperty').hide(); 
+      $('#cancelobjectdataproperty').hide(); 
+      $('#addobjectdataproperty').show(); 
+      $('#selectobjectlist > li.active').removeClass('active');
+      $('#objectdataproperty').val('');
+    }
+    $('#addobjectdataproperty').click(function() {
+      var errormessage = ' Please enter some data property for object.';
+      var txtvalue = $.trim($('#objectdataproperty').val());
+      if(txtvalue != '') 
+      {
+        $('#selectobjectlist').append('<li class="list-group-item">'+txtvalue+'</li>');
+        $('#selectobjectlist > li').last().click(function() {
+          if ($(this).hasClass("active")) 
+          {
+            $(this).removeClass('active');
+          }
+          else
+          {
+            $('#selectobjectlist > li').removeClass('active');
+            $(this).addClass('active');
+          }
+        });
+        $('#objectdataproperty').val('');
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+
+    $('#updateobjectdataproperty').hide(); 
+    $('#cancelobjectdataproperty').hide(); 
+
+    $('#deleteobjectdataproperty').click(function() {
+      var errormessage = ' Please select some object data property to delete.';
+      if($('#selectobjectlist > li.active').length) 
+      {
+        $('#selectobjectlist > li.active').remove();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+    $('#editobjectdataproperty').click(function() {
+      var errormessage = ' Please select some object data property to edit.';
+      
+      if($('#selectobjectlist > li.active').length) 
+      {
+        $('#updateobjectdataproperty').show(); 
+        $('#cancelobjectdataproperty').show(); 
+        $('#addobjectdataproperty').hide(); 
+        $('#objectdataproperty').val($('#selectobjectlist > li.active').html());
+        
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    }); 
+    $('#updateobjectdataproperty').click(function() {
+      var listItem = $('#selectobjectlist > li.active');
+      var index = $( "#selectobjectlist > li" ).index( listItem );
+      errormessage = ' Please enter some data property for object.';
+      var txtvalue = $.trim($('#objectdataproperty').val());
+      if(txtvalue != '') 
+      {
+        $('#selectobjectlist > li').eq(index).html(txtvalue);
+        if($('#selectobjectlist > li').eq(index).hasClass('active'))
+        {
+          $('#selectobjectlist > li').eq(index).removeClass('active');
+        }
+        resetSelectObject();
+      }
+      else
+      {
+        showError(errormessage);
+      }
+    });
+    $('#cancelobjectdataproperty').click(function() {
+      resetSelectObject();
+    });
+
   });
 </script>
 </body>
