@@ -15,7 +15,6 @@ public class OWLParser
   public static void main(String[] args)
   {
 
-	
 	try 
 	{
 	  File inputFile = new File(owlFileName);

@@ -150,6 +150,7 @@ public class Neo4JOperater
 	        tx1.close();
 	    }
 		shutdownConnection();
+		
 		return result;
 	}
 	public ArrayList<String> getAllObjectProperties()
@@ -180,6 +181,7 @@ public class Neo4JOperater
 	        tx1.close();
 	    }
 		shutdownConnection();
+		
 		return lst;
 	}
 	public HashMap<String,String> getAlldataPropertiesForGivenIRI(String IRI)
@@ -207,6 +209,7 @@ public class Neo4JOperater
 	            	{
 	            		String key = iterator.next();
 	            		dataPropertyPairs.put(key, allProperties.getString(key));
+	            		
 	            	}
 	            	
 	            }
@@ -220,6 +223,7 @@ public class Neo4JOperater
 	        tx1.close();
 	    }
 		shutdownConnection();
+
 		return dataPropertyPairs;
 	}
 	public ArrayList<ArrayList<String>> getAllSameIndividualPairs()
@@ -243,11 +247,11 @@ public class Neo4JOperater
 	            {
 	            	if(column.getKey().toString().equals("a.IRI"))
 	            	{
-	            		first = column.getValue().toString().substring(1);
+	            		first = column.getValue().toString();
 	            	}
 	            	if(column.getKey().toString().equals("b.IRI"))
 	            	{
-	            		second = column.getValue().toString().substring(1);
+	            		second = column.getValue().toString();
 	            	}
 	            }
 	            a.add(first);

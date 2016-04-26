@@ -68,7 +68,7 @@ public class OWLHandler extends DefaultHandler
 		switch(qName)
 		{
 			case "Ontology": 
-							writer.println("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r");
+							//writer.println("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r");
 							break;
 			case "Declaration": Declaration = true; break;
 			case "SubClassOf": 
@@ -613,7 +613,6 @@ public class OWLHandler extends DefaultHandler
 		writer.println("MATCH (a)-[r1:IsSameIndividualAs]->(b),(a)-[r2:IsNotA]->(c) MERGE (b)-[r3:IsNotA]->(c)");
 		Neo4JOperater neodb = new Neo4JOperater();  
 		lst = neodb.getAllObjectProperties();
-		neodb.getAlldataPropertiesForGivenIRI("#Student1");
 		if(lst != null)
 		{
 			for (String str : lst) 

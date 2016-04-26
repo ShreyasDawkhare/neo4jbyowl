@@ -18,6 +18,10 @@ MATCH (a)-[r1:IsSameIndividualAs]->(b),(a)-[r2:TaughtBy]->(c) MERGE (b)-[r3:Taug
 MATCH (a)-[r1:IsSameIndividualAs]->(b),(c)-[r2:TaughtBy]->(a) MERGE (c)-[r3:TaughtBy]->(b)
 MATCH (a)-[r1:IsSameIndividualAs]->(b),(a)-[r2:Teaches]->(c) MERGE (b)-[r3:Teaches]->(c)
 MATCH (a)-[r1:IsSameIndividualAs]->(b),(c)-[r2:Teaches]->(a) MERGE (c)-[r3:Teaches]->(b)
+MATCH (a)-[r1:IsSameIndividualAs]->(b) WHERE a.IRI="#Student1" and b.IRI="#Std1" SET b.predicatetype = "DataPropertyAssertion"
+MATCH (a)-[r1:IsSameIndividualAs]->(b) WHERE a.IRI="#Student1" and b.IRI="#Std1" SET b.FirstName = "Shreyas"
+MATCH (a)-[r1:IsSameIndividualAs]->(b) WHERE a.IRI="#Student1" and b.IRI="#Std1" SET b.LastName = "Dawkhare"
+MATCH (a)-[r1:IsSameIndividualAs]->(b) WHERE a.IRI="#Student1" and b.IRI="#Std1" SET b.StudentID = "1"
 MATCH (a)-[r1:Studies]->(b) MERGE (b)-[r2:StudiedBy]->(a)
 MATCH (a)-[r1:StudiedBy]->(b) MERGE (b)-[r2:Studies]->(a)
 MATCH (a)-[r1:Teaches]->(b) MERGE (b)-[r2:TaughtBy]->(a)
