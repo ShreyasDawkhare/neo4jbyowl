@@ -46,7 +46,13 @@
         <ObjectProperty IRI="#RegisteredTo"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#StudiedBy"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#Studies"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#TaughtBy"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#Teaches"/>
@@ -263,6 +269,14 @@
         <ObjectProperty IRI="#Teaches"/>
         <ObjectProperty IRI="#RegisteredTo"/>
     </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#Studies"/>
+        <ObjectProperty IRI="#StudiedBy"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#Teaches"/>
+        <ObjectProperty IRI="#TaughtBy"/>
+    </InverseObjectProperties>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#Studies"/>
         <Class IRI="#Student"/>

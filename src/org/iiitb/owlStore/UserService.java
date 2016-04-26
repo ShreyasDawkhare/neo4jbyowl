@@ -32,7 +32,7 @@ public class UserService {
 			else
 			{
 				Neo4JOperater neodb = new Neo4JOperater();  
-				response = neodb.executeMatchQuery(query);
+				response = neodb.executeMatchQueryForAPI(query);
 				System.out.println("response : " + response);
 			}
 		  

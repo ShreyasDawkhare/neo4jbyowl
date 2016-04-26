@@ -122,10 +122,12 @@
               <input type="text" class="form-control hidden" id="subdatapropertyiri" placeholder="Data property-IRI">
               <select class="form-control" id="suboperator">
                 <option value="equalto" selected="selected">&#61;</option>
+                <option value="notequalto">&#33;&#61;</option>
                 <option value="lessthan">&lt;</option>
                 <option value="greaterthan">&gt;</option>
                 <option value="lessthanequalto">&lt;&#61;</option>
                 <option value="greaterthanequalto">&gt;&#61;</option>
+                
               </select>
               <input type="text" class="form-control" id="subtxtvalue" placeholder="value">
               <select class="form-control" id="subcloseparenthesis">
@@ -186,10 +188,12 @@
               <input type="text" class="form-control hidden" id="objdatapropertyiri" placeholder="Data property-IRI">
               <select class="form-control" id="objoperator">
                 <option value="equalto" selected="selected">&#61;</option>
+                <option value="notequalto">&#33;&#61;</option>
                 <option value="lessthan">&lt;</option>
                 <option value="greaterthan">&gt;</option>
                 <option value="lessthanequalto">&lt;&#61;</option>
                 <option value="greaterthanequalto">&gt;&#61;</option>
+                
               </select>
               <input type="text" class="form-control" id="objtxtvalue" placeholder="value">
               <select class="form-control" id="objcloseparenthesis">
@@ -240,7 +244,13 @@
 </div>
 
 <script type="text/javascript">
+// GENERIC FLAGS
+var subIsNotA = 0;
+var obIsNotA = 0;
+
   $( document ).ready(function() {
+	 
+	  
     // GENERIC FUNCTIONS
     function closeAlert(){
       window.setTimeout(function () {
@@ -273,6 +283,7 @@
         case '>': a = '&gt;'; break;
         case '<=': a = '&lt;&#61;'; break;
         case '>=': a = '&gt;&#61;'; break;
+        case '!=': a = '&#33;&#61;'; break;
       }
       return a;
     }
@@ -338,6 +349,10 @@
 
       var newRule = '<a  class="list-group-item"><p><span data-elementtype="select" data-elementid="subcondition" data-value="'+subcondition_value+'">'+subcondition_text+'</span> <span data-elementtype="select" data-elementid="subopenparenthesis" data-value="'+subopenparenthesis_value+'">'+subopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="subpropertytype" data-value="'+subpropertytype_value+'">'+subpropertytype_text+'</span>';
 
+      if(subpropertytype_value === 'classiri' && suboperator_value === 'notequalto')
+   	  {
+   	  	subIsNotA ++;
+   	  }
       if(subpropertytype_value === 'datapropertyiri')
       {
         newRule = newRule + ' : <span data-elementtype="text" data-elementid ="subdatapropertyiri">'+subdatapropertyiri_text+'</span>';
@@ -370,7 +385,14 @@
 
       if(subpropertytype_value === 'classiri')
       {
-        var newRule = '<a  class="list-group-item"><p>'+subcondition_text+' '+subopenparenthesis_text+'(cs.type="Class" and (cs.IRI'+suboperator_text+'"'+subtxtvalue_text+'"))'+subcloseparenthesis_text+'';
+    	  if(suboperator_value === 'notequalto')
+   		  {
+    		  var newRule = '<a  class="list-group-item"><p>'+subcondition_text+' '+subopenparenthesis_text+'(ncs.type="Class" and (ncs.IRI="'+subtxtvalue_text+'"))'+subcloseparenthesis_text+'';
+   		  }
+    	  else
+   		  {
+    		  var newRule = '<a  class="list-group-item"><p>'+subcondition_text+' '+subopenparenthesis_text+'(cs.type="Class" and (cs.IRI'+suboperator_text+'"'+subtxtvalue_text+'"))'+subcloseparenthesis_text+'';
+   		  }
       }
       else if(subpropertytype_value === 'datapropertyiri')
       {
@@ -419,9 +441,15 @@
       if(errormessage === '')
       {
         // Validation DONE
-        var newRule = getSubjectRow();
+        
         var listItem = $('#subject-list-group > a.active');
         var index = $( "#subject-list-group > a" ).index( listItem );
+        if($('#subject-list-group > a.active > p > span[data-value="notequalto"]').length > 0)
+       	{
+       		subIsNotA --;
+       	}
+        var newRule = getSubjectRow();
+        
         
         $('#subject-list-group > a.active').replaceWith(newRule);
         $('#subject-list-group > a').eq(index).click(function() {
@@ -488,6 +516,10 @@
       {
         var listItem = $('#subject-list-group > a.active');
         var index = $( "#subject-list-group > a" ).index( listItem );
+        if($('#subject-list-group > a.active > p > span[data-value="notequalto"]').length > 0)
+       	{
+       		subIsNotA --;
+       	}
         $('#subject-list-group > a.active').remove();
         $("#neosubject-list-group > a").eq(index).remove();
       }
@@ -558,6 +590,10 @@
 
       var newRule = '<a  class="list-group-item"><p><span data-elementtype="select" data-elementid="objcondition" data-value="'+objcondition_value+'">'+objcondition_text+'</span> <span data-elementtype="select" data-elementid="objopenparenthesis" data-value="'+objopenparenthesis_value+'">'+objopenparenthesis_text+'</span> <span data-elementtype="select" data-elementid="objpropertytype" data-value="'+objpropertytype_value+'">'+objpropertytype_text+'</span>';
 
+      if(objpropertytype_value === 'classiri' && objoperator_value === 'notequalto')
+   	  {
+   	  	obIsNotA ++;
+   	  }
       if(objpropertytype_value === 'datapropertyiri')
       {
         newRule = newRule + ' : <span data-elementtype="text" data-elementid ="objdatapropertyiri">'+objdatapropertyiri_text+'</span>';
@@ -590,7 +626,15 @@
 
       if(objpropertytype_value === 'classiri')
       {
-        var newRule = '<a  class="list-group-item"><p>'+objcondition_text+' '+objopenparenthesis_text+'(co.type="Class" and (co.IRI'+objoperator_text+'"'+objtxtvalue_text+'"))'+objcloseparenthesis_text+'';
+    	  if(objoperator_value === 'notequalto')
+   		  {
+    		  var newRule = '<a  class="list-group-item"><p>'+objcondition_text+' '+objopenparenthesis_text+'(nco.type="Class" and (nco.IRI="'+objtxtvalue_text+'"))'+objcloseparenthesis_text+'';
+   		  }
+    	  else
+   		  {
+    		  var newRule = '<a  class="list-group-item"><p>'+objcondition_text+' '+objopenparenthesis_text+'(co.type="Class" and (co.IRI'+objoperator_text+'"'+objtxtvalue_text+'"))'+objcloseparenthesis_text+'';
+   		  }
+        
       }
       else if(objpropertytype_value === 'datapropertyiri')
       {
@@ -637,9 +681,14 @@
       if(errormessage === '')
       {
         // Validation DONE
-        var newRule = getObjectRow();
         var listItem = $('#object-list-group > a.active');
         var index = $( "#object-list-group > a" ).index( listItem );
+        if($('#object-list-group > a.active > p > span[data-value="notequalto"]').length > 0)
+       	{
+       		obIsNotA --;
+       	}
+        var newRule = getObjectRow();
+        
         
         $('#object-list-group > a.active').replaceWith(newRule);
         $('#object-list-group > a').eq(index).click(function() {
@@ -705,6 +754,10 @@
       {
         var listItem = $('#object-list-group > a.active');
         var index = $( "#object-list-group > a" ).index( listItem );
+        if($('#object-list-group > a.active > p > span[data-value="notequalto"]').length > 0)
+       	{
+       		obIsNotA --;
+       	}
         $('#object-list-group > a.active').remove();
         $("#neoobject-list-group > a").eq(index).remove();
       }
@@ -896,7 +949,7 @@
 	      var returnclause = '';
 	      var whereclause = '';
 	
-	      returnclause = 'Return ';
+	      returnclause = 'Return DISTINCT ';
 	      $('#selectsubjectlist > li').each(function( index ) {
 	        returnclause = returnclause + 's.' + $(this).html() + ',';
 	      });
@@ -913,6 +966,14 @@
 	      if($('#neoobject-list-group > a').length > 0)
 	      {
 	        matchclause = matchclause + '(o)-[r2:IsA]->(co),';
+	      }
+	      if(subIsNotA > 0)
+	      {
+	        matchclause = matchclause + '(s)-[r4:IsNotA]->(ncs),';
+	      }
+	      if(obIsNotA > 0)
+	      {
+	        matchclause = matchclause + '(o)-[r5:IsNotA]->(nco),';
 	      }
 	      if($('#preobjectpropertyiri').val() != '')
 	      {

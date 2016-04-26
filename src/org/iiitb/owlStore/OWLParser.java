@@ -1,5 +1,9 @@
 package org.iiitb.owlStore;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -29,29 +33,57 @@ public class OWLParser
 	  Neo4JOperater neodb = new Neo4JOperater();
 	  neodb.setInputFilePath(cypherFileName);
 	  
-	  //neodb.deleteAll();
+	  neodb.deleteAll();
 	  
 	  neodb.executeQueries();
 	  System.out.println("Done...");
-	  
+	   
 	  
 	} catch (Exception e) 
 	{
 		System.out.println(" NEO4J Error : "+e.getMessage());
 	}
-	/*String query="MATCH (s)-[r1:IsA]->(cs),(o)-[r2:IsA]->(co),(s)-[r3:Studies]->(o) Where (1=1) AND (cs.type=\"Class\" and (cs.IRI=\"#Human\")) AND (co.type=\"Class\" and (co.IRI=\"#Module\")) Return s.FirstName,o.IRI";
-	String response="";
-	Neo4JOperater neodb = new Neo4JOperater();
-	try
+	
+	/*try
 	{
-		  
-		response = neodb.executeMatchQuery(query);
-		System.out.println("response : " + response);
+		HashMap<String,String> a = null;
+		HashMap<String,String> b = null;
+		Neo4JOperater neodb = new Neo4JOperater();  
+		a = neodb.getAlldataPropertiesForGivenIRI("#Student1");
+		b = neodb.getAlldataPropertiesForGivenIRI("#Std1");
+		
+		System.out.println(a.toString());
+		System.out.println(b.toString());
+		
+		for (String key : a.keySet()) 
+		{
+			if(b.containsKey(key))
+			{
+				
+			}
+			else
+			{
+				b.put(key, a.get(key));
+			}
+		}
+		for (String key : b.keySet()) 
+		{
+			if(a.containsKey(key))
+			{
+				
+			}
+			else
+			{
+				a.put(key, b.get(key));
+			}
+		}
+		System.out.println(a.toString());
+		System.out.println(b.toString());
 	  
 	} catch (Exception e) 
 	{
 		System.out.println(" NEO4J Error : "+e.getMessage());
-		response = " NEO4J Error : "+e.toString();
+		
 	}*/
 	
   }   

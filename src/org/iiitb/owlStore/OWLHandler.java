@@ -1,8 +1,9 @@
 package org.iiitb.owlStore;
-
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -40,6 +41,8 @@ public class OWLHandler extends DefaultHandler
 	private boolean SameIndividual = false;
 	private boolean DifferentIndividuals = false;
 	private boolean SubObjectPropertyOf = false;
+	private boolean InverseObjectProperties = false;
+	
 	
 	private Queue<Object> queue = new LinkedList<Object>();
 	private OWLLiteral lit;
@@ -185,6 +188,10 @@ public class OWLHandler extends DefaultHandler
 							{
 								queue.add(new OWLObjectProperty(attributes.getValue("IRI")));
 							}
+							if(InverseObjectProperties)
+							{
+								queue.add(new OWLObjectProperty(attributes.getValue("IRI")));
+							}
 							break;
 			case "DataProperty": 
 							DataProperty = true;
@@ -263,6 +270,10 @@ public class OWLHandler extends DefaultHandler
 								queue.add(new OWLDatatype(attributes.getValue("abbreviatedIRI")));
 							}
 							break;
+			case "InverseObjectProperties": 
+							InverseObjectProperties = true; 
+							queue.clear();
+							break;
 		}
 	}
 	
@@ -288,8 +299,8 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject:Class), (object:Class) " +
-													"WHERE subject.IRI='"+((OWLClass)subject).getIRI()+"' and object.IRI='"+((OWLClass)object).getIRI()+"'" +
-													"MERGE (subject)-[:SubClassOf {predicatetype : 'SubClassOf', predicatename:'SubClassOf'}]->(object)");
+													" WHERE subject.IRI='"+((OWLClass)subject).getIRI()+"' and object.IRI='"+((OWLClass)object).getIRI()+"'" +
+													" MERGE (subject)-[:SubClassOf {predicatetype : 'SubClassOf', predicatename:'SubClassOf'}]->(object)");
 								
 							}
 							break;
@@ -305,11 +316,11 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject:Class), (object:Class) " +
-													"WHERE subject.IRI='"+((OWLClass)subject).getIRI()+"' and object.IRI='"+((OWLClass)object).getIRI()+"'" +
-													"MERGE (subject)-[:IsEquivalentTo {predicatetype : 'EquivalentClasses'}]->(object)");
+													" WHERE subject.IRI='"+((OWLClass)subject).getIRI()+"' and object.IRI='"+((OWLClass)object).getIRI()+"'" +
+													" MERGE (subject)-[:IsEquivalentTo {predicatetype : 'EquivalentClasses'}]->(object)");
 								writer.println("MATCH (subject:Class), (object:Class) " +
-										"WHERE subject.IRI='"+((OWLClass)object).getIRI()+"' and object.IRI='"+((OWLClass)subject).getIRI()+"'" +
-										"MERGE (subject)-[:IsEquivalentTo {predicatetype : 'EquivalentClasses',predicatename:'IsEquivalentTo'}]->(object)");
+										" WHERE subject.IRI='"+((OWLClass)object).getIRI()+"' and object.IRI='"+((OWLClass)subject).getIRI()+"'" +
+										" MERGE (subject)-[:IsEquivalentTo {predicatetype : 'EquivalentClasses',predicatename:'IsEquivalentTo'}]->(object)");
 								
 								
 							}
@@ -327,11 +338,11 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject:NamedIndividual), (object:NamedIndividual) " +
-													"WHERE subject.IRI='"+((OWLNamedIndividual)subject).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)object).getIRI()+"'" +
-													"MERGE (subject)-[:IsSameIndividualAs {predicatetype : 'SameIndividual',predicatename:'IsSameIndividualAs'}]->(object)");
+													" WHERE subject.IRI='"+((OWLNamedIndividual)subject).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)object).getIRI()+"'" +
+													" MERGE (subject)-[:IsSameIndividualAs {predicatetype : 'SameIndividual',predicatename:'IsSameIndividualAs'}]->(object)");
 								writer.println("MATCH (subject:NamedIndividual), (object:NamedIndividual) " +
-													"WHERE subject.IRI='"+((OWLNamedIndividual)object).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)subject).getIRI()+"'" +
-													"MERGE (subject)-[:IsSameIndividualAs {predicatetype : 'SameIndividual',predicatename:'IsSameIndividualAs'}]->(object)");
+													" WHERE subject.IRI='"+((OWLNamedIndividual)object).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)subject).getIRI()+"'" +
+													" MERGE (subject)-[:IsSameIndividualAs {predicatetype : 'SameIndividual',predicatename:'IsSameIndividualAs'}]->(object)");
 								
 							}
 							break;
@@ -348,11 +359,11 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject:NamedIndividual), (object:NamedIndividual) " +
-													"WHERE subject.IRI='"+((OWLNamedIndividual)subject).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)object).getIRI()+"'" +
-													"MERGE (subject)-[:IsDifferentIndividualFrom {predicatetype : 'DifferentIndividuals',predicatename:'IsDifferentIndividualFrom'}]->(object)");
+													" WHERE subject.IRI='"+((OWLNamedIndividual)subject).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)object).getIRI()+"'" +
+													" MERGE (subject)-[:IsDifferentIndividualFrom {predicatetype : 'DifferentIndividuals',predicatename:'IsDifferentIndividualFrom'}]->(object)");
 								writer.println("MATCH (subject:NamedIndividual), (object:NamedIndividual) " +
-													"WHERE subject.IRI='"+((OWLNamedIndividual)object).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)subject).getIRI()+"'" +
-													"MERGE (subject)-[:IsDifferentIndividualFrom {predicatetype : 'DifferentIndividuals',predicatename:'IsDifferentIndividualFrom'}]->(object)");
+													" WHERE subject.IRI='"+((OWLNamedIndividual)object).getIRI()+"' and object.IRI='"+((OWLNamedIndividual)subject).getIRI()+"'" +
+													" MERGE (subject)-[:IsDifferentIndividualFrom {predicatetype : 'DifferentIndividuals',predicatename:'IsDifferentIndividualFrom'}]->(object)");
 								
 							}
 							break;
@@ -368,8 +379,8 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject:ObjectProperty), (object:ObjectProperty) " +
-													"WHERE subject.IRI='"+((OWLObjectProperty)subject).getIRI()+"' and object.IRI='"+((OWLObjectProperty)object).getIRI()+"'" +
-													"MERGE (subject)-[:IsSubObjectPropertyOf {predicatetype : 'SubObjectPropertyOf',predicatename:'IsSubObjectPropertyOf'}]->(object)");
+													" WHERE subject.IRI='"+((OWLObjectProperty)subject).getIRI()+"' and object.IRI='"+((OWLObjectProperty)object).getIRI()+"'" +
+													" MERGE (subject)-[:IsSubObjectPropertyOf {predicatetype : 'SubObjectPropertyOf',predicatename:'IsSubObjectPropertyOf'}]->(object)");
 								
 							};
 			case "DisjointClasses": 
@@ -387,7 +398,7 @@ public class OWLHandler extends DefaultHandler
 										else  if(mode == 2)
 										{
 											writer.println("MATCH (subject {IRI:'"+((OWLClass)c1).getIRI()+"'}), (object {IRI:'"+((OWLClass)c2).getIRI()+"'}) " +
-																"MERGE (subject)-[:IsDisjointWith {predicatetype : 'DisjointClasses',predicatename:'IsDisjointWith'}]->(object)");
+																" MERGE (subject)-[:IsDisjointWith {predicatetype : 'DisjointClasses',predicatename:'IsDisjointWith'}]->(object)");
 											
 										}
 							        }
@@ -407,7 +418,7 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject {IRI:'"+((OWLNamedIndividual)subject).getIRI()+"'}), (object {IRI:'"+((OWLClass)object).getIRI()+"'}) " +
-													"MERGE (subject)-[:IsA {predicatetype : 'ClassAssertion',predicatename:'IsA'}]->(object)");
+													" MERGE (subject)-[:IsA {predicatetype : 'ClassAssertion',predicatename:'IsA'}]->(object)");
 								
 								
 							}
@@ -425,7 +436,7 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject {IRI:'"+((OWLNamedIndividual)subject).getIRI()+"'}), (object {IRI:'"+((OWLNamedIndividual)object).getIRI()+"'}) " +
-													"MERGE (subject)-[:"+(((OWLObjectProperty)predicate).getIRI()).substring(1)+" {predicatetype : 'ObjectPropertyAssertion',predicatename: '"+(((OWLObjectProperty)predicate).getIRI()).substring(1)+"'}]->(object)");
+													" MERGE (subject)-[:"+(((OWLObjectProperty)predicate).getIRI()).substring(1)+" {predicatetype : 'ObjectPropertyAssertion',predicatename: '"+(((OWLObjectProperty)predicate).getIRI()).substring(1)+"'}]->(object)");
 								
 							}
 							break;
@@ -442,8 +453,8 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (node {IRI:'"+((OWLNamedIndividual)subject).getIRI()+"'}) " +
-													"SET node."+(((OWLDataProperty)predicate).getIRI()).substring(1)+" = '"+((OWLLiteral)object).getValue()+"', " +
-													"node.predicatetype = 'DataPropertyAssertion'" );
+													" SET node."+(((OWLDataProperty)predicate).getIRI()).substring(1)+" = '"+((OWLLiteral)object).getValue()+"', " +
+													" node.predicatetype = 'DataPropertyAssertion'" );
 								
 							}
 							break;
@@ -459,7 +470,7 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject {IRI:'"+((OWLObjectProperty)subject).getIRI()+"'}), (object {IRI:'"+((OWLClass)object).getIRI()+"'}) " +
-													"MERGE (subject)-[:HasDomainOf {predicatetype : 'ObjectPropertyDomain',predicatename:'HasDomainOf'}]->(object)");
+													" MERGE (subject)-[:HasDomainOf {predicatetype : 'ObjectPropertyDomain',predicatename:'HasDomainOf'}]->(object)");
 								
 							}
 							break;
@@ -475,7 +486,7 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject {IRI:'"+((OWLObjectProperty)subject).getIRI()+"'}), (object {IRI:'"+((OWLClass)object).getIRI()+"'}) " +
-													"MERGE (subject)-[:HasRangeOf {predicatetype : 'ObjectPropertyRange',predicatename : 'HasRangeOf'}]->(object)");
+													" MERGE (subject)-[:HasRangeOf {predicatetype : 'ObjectPropertyRange',predicatename : 'HasRangeOf'}]->(object)");
 								
 							}
 							break;
@@ -491,7 +502,7 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject {IRI:'"+((OWLDataProperty)subject).getIRI()+"'}), (object {IRI:'"+((OWLClass)object).getIRI()+"'}) " +
-													"MERGE (subject)-[:HasDomainOf {predicatetype : 'DataPropertyDomain',predicatename:'HasDomainOf'}]->(object)");
+													" MERGE (subject)-[:HasDomainOf {predicatetype : 'DataPropertyDomain',predicatename:'HasDomainOf'}]->(object)");
 								
 							}
 							break;
@@ -507,10 +518,29 @@ public class OWLHandler extends DefaultHandler
 							else  if(mode == 2)
 							{
 								writer.println("MATCH (subject {IRI:'"+((OWLDataProperty)subject).getIRI()+"'}), (object {IRI:'"+((OWLDatatype)object).getabbreviatedIRI()+"'}) " +
-													"MERGE (subject)-[:HasRangeOf {predicatetype : 'DataPropertyRange',predicatename:'HasRangeOf'}]->(object)");
+													" MERGE (subject)-[:HasRangeOf {predicatetype : 'DataPropertyRange',predicatename:'HasRangeOf'}]->(object)");
 								
 							}
 							break;
+			case "InverseObjectProperties" : 
+							InverseObjectProperties = false; 
+							subject = queue.remove();
+							object = queue.remove();
+							queue.clear();
+							if(mode == 1)
+							{
+								System.out.println("{ subject : \""+((OWLObjectProperty)subject).getIRI()+"\", predicate : \"IsInverseObjectPropertyOf\", predicatetype : \"InverseObjectProperties\", object : \""+((OWLObjectProperty)object).getIRI()+"\" },");
+							}
+							else  if(mode == 2)
+							{
+								writer.println("MATCH (subject:ObjectProperty), (object:ObjectProperty) " +
+													" WHERE subject.IRI='"+((OWLObjectProperty)subject).getIRI()+"' and object.IRI='"+((OWLObjectProperty)object).getIRI()+"'" +
+													" MERGE (subject)-[:IsInverseObjectPropertyOf {predicatetype : 'InverseObjectProperties',predicatename:'IsInverseObjectPropertyOf'}]->(object)");
+								writer.println("MATCH (subject:ObjectProperty), (object:ObjectProperty) " +
+													" WHERE subject.IRI='"+((OWLObjectProperty)object).getIRI()+"' and object.IRI='"+((OWLObjectProperty)subject).getIRI()+"'" +
+													" MERGE (subject)-[:IsInverseObjectPropertyOf {predicatetype : 'InverseObjectProperties',predicatename:'IsInverseObjectPropertyOf'}]->(object)");
+								
+							};
 			case "Class": Class = false; break;
 			case "ObjectProperty": ObjectProperty = false; break;
 			case "DataProperty": DataProperty = false; break;
@@ -518,6 +548,9 @@ public class OWLHandler extends DefaultHandler
 			case "Literal": Literal = false; break;
 			case "Datatype": Datatype = false; break;
 			case "Ontology": 
+							generateSameIndividualInference();
+							generateInverseObjectPropertyInference();
+							generateSubObjectPropertyInference();
 							writer.close();
 							break;
 		}
@@ -543,6 +576,66 @@ public class OWLHandler extends DefaultHandler
 		writer.println("MATCH (a)-[r1:SubClassOf]->(b),(b)-[r2:IsEquivalentTo]->(c) MERGE (a)-[r3:SubClassOf]->(c)");
 		writer.println("MATCH (a)-[r1:HasDomainOf]->(b),(b)-[r2:IsEquivalentTo]->(c) MERGE (a)-[r3:HasDomainOf]->(c)");
 		writer.println("MATCH (a)-[r1:HasRangeOf]->(b),(b)-[r2:IsEquivalentTo]->(c) MERGE (a)-[r3:HasRangeOf]->(c)");
+		writer.println("MATCH (a)-[r1:IsDisjointWith]->(b),(c)-[r2:IsA]->(a) MERGE (c)-[r3:IsNotA]->(b)");
 	}
-	
+	public void generateSameIndividualInference()
+	{
+		ArrayList<String> lst;
+		writer.println("MATCH (a)-[r1:IsSameIndividualAs]->(b),(a)-[r2:IsA]->(c) MERGE (b)-[r3:IsA]->(c)");
+		writer.println("MATCH (a)-[r1:IsSameIndividualAs]->(b),(a)-[r2:IsNotA]->(c) MERGE (b)-[r3:IsNotA]->(c)");
+		Neo4JOperater neodb = new Neo4JOperater();  
+		lst = neodb.getAllObjectProperties();
+		neodb.getAlldataPropertiesForGivenIRI("#Student1");
+		if(lst != null)
+		{
+			for (String str : lst) 
+			{
+				writer.println("MATCH (a)-[r1:IsSameIndividualAs]->(b),(a)-[r2:"+str+"]->(c) MERGE (b)-[r3:"+str+"]->(c)");
+				writer.println("MATCH (a)-[r1:IsSameIndividualAs]->(b),(c)-[r2:"+str+"]->(a) MERGE (c)-[r3:"+str+"]->(b)");
+			}
+		}
+		ArrayList<ArrayList<String>> sameIndividualPairs =  neodb.getAllSameIndividualPairs();
+		
+		for (ArrayList<String> spair : sameIndividualPairs) 
+		{
+			HashMap<String,String> a = null;
+			HashMap<String,String> b = null; 
+			a = neodb.getAlldataPropertiesForGivenIRI(spair.get(0));
+			b = neodb.getAlldataPropertiesForGivenIRI(spair.get(1));
+
+			for (String key : a.keySet()) 
+			{
+				if(b.containsKey(key))
+				{
+					
+				}
+				else
+				{
+					b.put(key, a.get(key));
+					writer.println("MATCH (a)-[r1:IsSameIndividualAs]->(b) WHERE a.IRI=\""+spair.get(0)+"\" and b.IRI=\""+spair.get(1)+"\" SET b."+key+" = \""+a.get(key)+"\"");
+				}
+			}
+		}
+		
+	}
+	public void generateInverseObjectPropertyInference()
+	{
+		ArrayList<ArrayList<String>> inverseObjectPropertiesPairs;
+		Neo4JOperater neodb = new Neo4JOperater();  
+		inverseObjectPropertiesPairs = neodb.getAllInverseObjectProperties();
+		for (ArrayList<String> spair : inverseObjectPropertiesPairs) 
+		{
+			writer.println("MATCH (a)-[r1:"+spair.get(0)+"]->(b) MERGE (b)-[r2:"+spair.get(1)+"]->(a)");
+		}
+	}
+	public void generateSubObjectPropertyInference()
+	{
+		ArrayList<ArrayList<String>> subObjectPropertiesPairs;
+		Neo4JOperater neodb = new Neo4JOperater();  
+		subObjectPropertiesPairs = neodb.getAllSubObjectProperties();
+		for (ArrayList<String> spair : subObjectPropertiesPairs) 
+		{
+			writer.println("MATCH (a)-[r1:"+spair.get(0)+"]->(b) MERGE (a)-[r2:"+spair.get(1)+"]->(b)");
+		}
+	}
 }
