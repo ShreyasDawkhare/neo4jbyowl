@@ -49,6 +49,7 @@ public class OWLHandler extends DefaultHandler
 	private int mode = 2; // JSON : 1, CYPHER : 2
 	private PrintWriter writer;
 
+
 	public void setOutputFilePath(String cypherFileName) 
 	{
 		try 
@@ -66,6 +67,9 @@ public class OWLHandler extends DefaultHandler
 	{
 		switch(qName)
 		{
+			case "Ontology": 
+							writer.println("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r");
+							break;
 			case "Declaration": Declaration = true; break;
 			case "SubClassOf": 
 							SubClassOf = true; 
@@ -548,15 +552,39 @@ public class OWLHandler extends DefaultHandler
 			case "Literal": Literal = false; break;
 			case "Datatype": Datatype = false; break;
 			case "Ontology": 
-							generateSameIndividualInference();
-							generateInverseObjectPropertyInference();
-							generateSubObjectPropertyInference();
 							writer.close();
+							fireAllQueries();
+							startInferencing();							
 							break;
 		}
 		inferenceRules();
     }
 	
+	private void startInferencing() 
+	{
+		setOutputFilePath(OWLParser.cypherFileName);
+		inferenceRules();
+		generateSameIndividualInference();
+		generateInverseObjectPropertyInference();
+		generateSubObjectPropertyInference();
+		writer.close();
+		fireAllQueries();
+	}
+
+	private void fireAllQueries() 
+	{
+		try
+		{
+			  Neo4JOperater neodb = new Neo4JOperater();
+			  neodb.setInputFilePath(OWLParser.cypherFileName);
+			  neodb.executeQueries();
+			  System.out.println("Done...");
+			} catch (Exception e) 
+			{
+				System.out.println(" NEO4J Error : "+e.getMessage());
+			}
+	}
+
 	@Override
 	public void characters(char ch[],int start, int length) throws SAXException 
 	{

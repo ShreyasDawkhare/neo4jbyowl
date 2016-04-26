@@ -354,4 +354,19 @@ public class Neo4JOperater
 		return subObjectPropertiesPairs;
 
 	}
+	public void executeMatchQuery(String query)
+	{
+		createConnection();
+		Transaction tx1 = db.beginTx();
+	    try
+	    {
+	    	db.execute(query);
+	    	System.out.println("Executing : "+ query);
+	        tx1.success();
+	        
+	    } finally {
+	        tx1.close();
+	    }
+		shutdownConnection();
+	}
 }

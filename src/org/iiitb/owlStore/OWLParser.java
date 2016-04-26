@@ -10,11 +10,12 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class OWLParser 
 {
+	public static String owlFileName="data/Protege_Ontology.owl";
+	public static String cypherFileName="data/cypher.cql";
   public static void main(String[] args)
   {
 
-	String owlFileName="data/Protege_Ontology.owl";
-	String cypherFileName="data/cypher.cql";
+	
 	try 
 	{
 	  File inputFile = new File(owlFileName);
@@ -28,7 +29,7 @@ public class OWLParser
 	{
 	  System.out.println(" Parsing Error : "+e.getMessage());
 	}
-	try
+	/*try
 	{
 	  Neo4JOperater neodb = new Neo4JOperater();
 	  neodb.setInputFilePath(cypherFileName);
@@ -42,7 +43,7 @@ public class OWLParser
 	} catch (Exception e) 
 	{
 		System.out.println(" NEO4J Error : "+e.getMessage());
-	}
+	}*/
 	
 	/*try
 	{
