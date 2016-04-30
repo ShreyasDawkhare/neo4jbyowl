@@ -36,17 +36,14 @@ public class Neo4JOperater
 	{
 		this.DB_PATH = DB_PATH;
 	}
-	
 	public void setNEO4J_Properties_Path(String NEO4J_Properties_Path)
 	{
 		this.NEO4J_Properties_Path = NEO4J_Properties_Path;
 	}
-	
 	public void setInputFilePath(String inputFilePath)
 	{
 		this.inputFilePath = inputFilePath;
 	}
-	
 	public void executeQueries()
 	{
 		createConnection();
@@ -64,12 +61,10 @@ public class Neo4JOperater
 		}
 		shutdownConnection();
 	}
-
 	private void shutdownConnection() 
 	{
 		db.shutdown();
 	}
-
 	private void createConnection() 
 	{
 		try
@@ -88,7 +83,6 @@ public class Neo4JOperater
 			System.exit(0);
 		}
 	}
-
 	private void execute(String line) 
 	{
 		Transaction tx1 = db.beginTx();
@@ -150,7 +144,6 @@ public class Neo4JOperater
 	        tx1.close();
 	    }
 		shutdownConnection();
-		
 		return result;
 	}
 	public ArrayList<String> getAllObjectProperties()
@@ -266,9 +259,7 @@ public class Neo4JOperater
 	    }
 		
 		shutdownConnection();
-		
 		return sameIndividualPairs;
-		
 	}
 	public ArrayList<ArrayList<String>> getAllInverseObjectProperties() 
 	{

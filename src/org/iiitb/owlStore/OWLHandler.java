@@ -42,8 +42,6 @@ public class OWLHandler extends DefaultHandler
 	private boolean DifferentIndividuals = false;
 	private boolean SubObjectPropertyOf = false;
 	private boolean InverseObjectProperties = false;
-	
-	
 	private Queue<Object> queue = new LinkedList<Object>();
 	private OWLLiteral lit;
 	private int mode = 2; // JSON : 1, CYPHER : 2

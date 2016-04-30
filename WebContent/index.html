@@ -29,7 +29,13 @@
     .gi-2x{
       font-size: 2em;
     }
-    
+    input[type="file"] {
+    display: none;
+	}
+	.custom-file-upload {
+	    display: inline-block;
+	    cursor: pointer;
+	}
   </style>
 </head>
 <body>
@@ -41,7 +47,20 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <p class="text-center bg-info" style="padding:10px;"><b>Query Generation Engine</b></p>
-          <div id="error" class="alert alert-danger hidden" role="alert"><strong>Error!</strong> <span class="message"></span></div>
+          <div id="error" class="alert alert-danger hidden" role="alert"><strong>Error!!</strong> <span class="message"></span></div>
+          <div id="success" class="alert alert-success hidden" role="alert"><strong>Success!!</strong> <span class="message"></span></div>
+          <div class="form-inline" id="object">
+            <div class="form-group col-lg-12">
+              	<p class="bg-success" style="padding:10px;"><b>Upload OWL-XML	</b></p>
+              	<input type="text" class="form-control" style="width:500px;" id="owlfilepath" disabled="true">
+              	<label for="file-upload" class="custom-file-upload btn btn-primary">
+				    <i class="glyphicon glyphicon-folder-open rightspacer"></i> Browse OWL-XML file
+				</label>
+				<input id="file-upload" type="file"/>
+				<button type="button" class="btn btn-primary" id="uploadowlfile"><span class="glyphicon glyphicon-upload rightspacer" aria-hidden="true"></span><b>Import</b></button>
+				<div class="topspacer">&nbsp;</div>
+            </div>
+          </div>
           <div class="form-inline" id="object">
             <div class="form-group col-lg-12">
               <p class="bg-success" style="padding:10px;"><b>Select Clause</b></p>
@@ -152,8 +171,8 @@
               <button id="subbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
               <div class="topspacer">&nbsp;</div>
               <div class="row">
-                <div class="list-group col-md-6" id="subject-list-group"></div>
-                <div class="list-group col-md-6" id="neosubject-list-group"></div>
+                <div class="list-group col-md-10" id="subject-list-group"></div>
+                <div class="list-group col-md-6 hidden" id="neosubject-list-group"></div>
               </div>
             </div>
           </div>
@@ -218,8 +237,8 @@
               <button id="objbtndelete" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-remove rightspacer" aria-hidden="true"></span>Delete</button>
               <div class="topspacer">&nbsp;</div>
               <div class="row">
-                <div class="list-group col-md-6" id="object-list-group"></div>
-                <div class="list-group col-md-6" id="neoobject-list-group"></div>
+                <div class="list-group col-md-10" id="object-list-group"></div>
+                <div class="list-group col-md-6 hidden" id="neoobject-list-group"></div>
               </div>
             </div>
           </div>
@@ -249,7 +268,6 @@ var subIsNotA = 0;
 var obIsNotA = 0;
 
   $( document ).ready(function() {
-	 
 	  
     // GENERIC FUNCTIONS
     function closeAlert(){
@@ -272,6 +290,26 @@ var obIsNotA = 0;
         }
         $('body, html').animate({scrollTop: 0});
     }
+    function closeSuccess(){
+        window.setTimeout(function () {
+          $("#success").fadeOut(1000);
+        }, 5000);
+        window.setTimeout(function () {
+          $("#success").removeClass('visible');
+          $("#success").addClass('hidden');
+        }, 7000);
+      } 
+      function showSuccess(errormessage){
+        $('#success > .message').html(errormessage);
+          if ($("#success").hasClass("hidden")) 
+          {
+            $("#success").fadeIn(1000);
+            $('#success').removeClass('hidden');
+            $('#success').addClass('visible');
+            closeSuccess();
+          }
+          $('body, html').animate({scrollTop: 0});
+      }
     function getEncodedValue(a)
     {
       switch(a)
@@ -1017,7 +1055,34 @@ var obIsNotA = 0;
 	          }
 	      }); 
     });
-    
+      $("#file-upload").change(function(){
+	      $('#owlfilepath').val($('#file-upload').val());
+	  });
+	  $('#uploadowlfile').click(function(){
+		    $('#uploadowlfile').prop('disabled',true);
+		    $('#uploadowlfile').find('b').html('Importing...');
+		    var objFile = $("#file-upload");
+		    var file = objFile[0].files[0];
+		    $.ajax({
+				url : "rest/UserService/uploadowlxml",
+				type : "POST",
+				contentType : "multipart/form-data",
+				data: file,
+				processData: false,
+				success: function(data){
+				      $('#uploadowlfile').prop('disabled',false);
+				      $('#uploadowlfile').find('b').html('Import');
+				      showSuccess("File imported successfully!!!");
+				  },
+				error: function(error){
+				    $('#uploadowlfile').prop('disabled',false);
+				    $('#uploadowlfile').find('b').html('Import');
+				    showError("Error in uploading file!!!");
+				}
+		    }); 
+		    
+	  });
+	  
 
   });
 </script>
